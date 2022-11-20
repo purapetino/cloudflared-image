@@ -1,0 +1,44 @@
+name: imageBuild and push
+on:
+  push:
+    branches:
+      - main
+    paths:
+    - 'version.json'
+
+jobs:
+  imageBuild:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: cloudflared-tunnel
+      TEAM: purapetino
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+        with:
+          submodules: recursive
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: install jq
+        run: sudo apt update && sudo apt install jq
+
+      - name: Get Version
+        run: cat version.json | jq -r '.version + "-" + .cloudflared_version' >> version_name
+
+      - name: Set Version
+        id: vars
+        run: echo "::set-output name=image_version::$(cat version_name)"
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./image
+          push: true
+          tags: |
+            ghcr.io/${{ env.TEAM }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.image_version }}
