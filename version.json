@@ -1,7 +1,7 @@
 {
   "cloudflared_version": "2022.10.3",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
 
   "_comment": "下記のSerialはgithubactionsを手動起動させる場合などに使用します",
-  "Serial": "2022/11/20 No.03"
+  "Serial": "2022/11/20 No.04"
 }
