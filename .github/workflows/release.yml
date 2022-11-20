@@ -35,9 +35,6 @@ jobs:
       - name: Set Version
         id: vars
         run: echo "::set-output name=image_version::$(cat version_name)"
-
-      - name: debug
-        run: pwd && ls -ltar
         
       - name: Build and push
         uses: docker/build-push-action@v2
