@@ -21,9 +21,7 @@ ingress:
 EOF
 fi
 
-TUNNEL_CERT="$HOME/.cloudflared/cert.pem"
-
-if [ ! -f "${TUNNEL_CERT}" ]; then
+if[ ! -e "$HOME/.cloudflared/cert.pem"]; then
   cloudflared tunnel login
 fi
 
