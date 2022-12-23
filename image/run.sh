@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-TUNNEL_NAME="test"
-CLOUDFLARED_HOSTNAME="admin.grafana.purapetino.com"
-CLOUDFLARED_SERVICE="http://192.168.1.49"
-
 if [ -z "$TUNNEL_NAME" ]; then
   echo "Error: TUNNEL_NAME が設定されていません"
   exit 1
@@ -26,9 +22,6 @@ fi
 
 if [ ! -e "$HOME/.cloudflared/cert.pem" ]; then
   cloudflared tunnel login
-  echo "a"
-else
-  echo "a"
 fi
 
 # トンネルを作り直す
