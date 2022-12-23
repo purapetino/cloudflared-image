@@ -1,28 +1,34 @@
 #!/bin/bash
 set -e
 
+TUNNEL_NAME="test"
+CLOUDFLARED_HOSTNAME="admin.grafana.purapetino.com"
+CLOUDFLARED_SERVICE="http://192.168.1.49"
+
 if [ -z "$TUNNEL_NAME" ]; then
-echo "Error: TUNNEL_NAME が設定されていません"
-exit 1
+  echo "Error: TUNNEL_NAME が設定されていません"
+  exit 1
 fi
 
-if [ ! -s /tmp/tunnel.yml ]; then
 
-if [ -z "$CLOUDFLARED_HOSTNAME" ] || [ -z "$CLOUDFLARED_SERVICE" ]; then
-echo "Error: 起動に必要な変数が不足しています (ERROR: 101)"
-exit 1
-fi
+if [ ! -s "/tmp/tunnel.yml" ]; then
 
 cat <<EOF | tee /tmp/tunnel.yml
-ingress:
-  - hostname: $CLOUDFLARED_HOSTNAME
-    service: $CLOUDFLARED_SERVICE
-  - service: http_status:404
+  ingress:
+    - hostname: $CLOUDFLARED_HOSTNAME
+      service: $CLOUDFLARED_SERVICE
+    - service: http_status:404
 EOF
+
+echo "success: create config"
+
 fi
 
-if[ ! -e "$HOME/.cloudflared/cert.pem"]; then
+if [ ! -e "$HOME/.cloudflared/cert.pem" ]; then
   cloudflared tunnel login
+  echo "a"
+else
+  echo "a"
 fi
 
 # トンネルを作り直す

@@ -1,4 +1,4 @@
-FROM cloudflare/cloudflared:2022.10.3 as cloudflared-binary
+FROM cloudflare/cloudflared:2022.12.1 as cloudflared-binary
 
 FROM ubuntu:20.04
 
